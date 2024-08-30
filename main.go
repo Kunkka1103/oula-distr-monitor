@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -64,7 +65,7 @@ func checkDate() {
 
 	log.Println("成功连接到数据库")
 
-	// 执行SQL查询
+	// 执行SQL查询并获取日期部分
 	var distributorDate string
 	err = db.QueryRow("SELECT distributor_date FROM distributor ORDER BY distributor_date DESC LIMIT 1").Scan(&distributorDate)
 	if err != nil {
@@ -72,6 +73,8 @@ func checkDate() {
 		return
 	}
 
+	// 提取日期部分（忽略时间部分）
+	distributorDate = strings.Split(distributorDate, "T")[0]
 	log.Printf("查询到的 distributor_date 为：%s", distributorDate)
 
 	// 获取当前时间
