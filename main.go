@@ -84,12 +84,12 @@ func checkDate() {
 	// 检查日期
 	if distributorDate != yesterday {
 		// 如果当前时间在8:15之后，且还没有触发过告警，则触发告警
-		if now.Hour() >= 8 && now.Minute() >= 15 && !alertedToday {
+		if now.Hour() >= 8 && now.Minute() >= 30 && !alertedToday {
 			log.Printf("日期不匹配: 期望 %s, 但获得 %s，触发告警", yesterday, distributorDate)
 			Push("oula_distributor_date_check", 1, pushGatewayURL)
 			alertedToday = true // 标记当天已经触发过告警
 		} else {
-			log.Println("日期不匹配，但尚未到8:15，暂不触发告警")
+			log.Println("日期不匹配，但尚未到8:30，暂不触发告警")
 		}
 	} else {
 		// 如果日期匹配，清除告警并重置标志位
